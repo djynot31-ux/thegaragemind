@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Garage Mind Podcast</title>
+  <meta name="description" content="The Garage Mind Podcast — conversations with builders, tinkerers, and thinkers who create in the garage." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0f1117;--bg-2:#161922;--bg-3:#1e2330;--surface:#1a1e28;--text:#e8eaf0;--text-dim:#9ba3b4;--accent:#ff6b35;--accent-2:#f7931e;--accent-glow:rgba(255,107,53,0.25);--border:rgba(255,255,255,0.08);--radius:14px;--max:1140px;--font:'Inter',system-ui,sans-serif;--font-display:'Space Grotesk',sans-serif}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:0 auto;padding:0 24px}
+    .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,17,23,0.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background 0.3s}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+    .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.25rem}
+    .logo-icon{font-size:1.4rem}
+    .nav{display:flex;align-items:center;gap:28px}
+    .nav a{font-size:0.92rem;font-weight:500;color:var(--text-dim);transition:color 0.2s}
+    .nav a:hover{color:var(--text)}
+    .nav a.nav-cta{background:var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-weight:600}
+    .nav a.nav-cta:hover{background:var(--accent-2);color:#fff}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer}
+    .nav-toggle span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:0.3s}
+    .hero{position:relative;padding:140px 0 80px;background:radial-gradient(ellipse at top right,rgba(255,107,53,0.12),transparent 60%),radial-gradient(ellipse at bottom left,rgba(247,147,30,0.08),transparent 50%),var(--bg);overflow:hidden}
+    .hero-inner{display:grid;grid-template-columns:1.2fr 0.8fr;gap:40px;align-items:center}
+    .hero-badge{display:inline-block;padding:6px 14px;border-radius:100px;background:rgba(255,107,53,0.12);color:var(--accent);font-size:0.82rem;font-weight:600;margin-bottom:20px;border:1px solid rgba(255,107,53,0.25)}
+    .hero-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.2rem);font-weight:700;line-height:1.05;margin-bottom:20px;background:linear-gradient(135deg,#fff 30%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-subtitle{font-size:1.12rem;color:var(--text-dim);max-width:540px;margin-bottom:32px}
+    .hero-actions{display:flex;gap:14px;margin-bottom:28px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 28px;border-radius:10px;font-weight:600;font-size:0.95rem;cursor:pointer;border:none;transition:all 0.25s;font-family:var(--font)}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 8px 24px var(--accent-glow)}
+    .btn-secondary{background:var(--bg-3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--surface);border-color:var(--accent)}
+    .hero-platforms{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:0.88rem;color:var(--text-dim)}
+    .hero-platforms a{color:var(--text);font-weight:500;transition:color 0.2s}
+    .hero-platforms a:hover{color:var(--accent)}
+    .hero-art{display:flex;justify-content:center;align-items:center}
+    .mic-visual{position:relative;width:280px;height:280px;display:flex;justify-content:center;align-items:center}
+    .mic-ring{position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid rgba(255,107,53,0.2);animation:pulse 3s ease-out infinite}
+    .mic-ring.r2{animation-delay:1s;border-color:rgba(255,107,53,0.15)}
+    .mic-ring.r3{animation-delay:2s;border-color:rgba(255,107,53,0.1)}
+    .mic-core{font-size:5rem;z-index:2;filter:drop-shadow(0 0 30px var(--accent-glow))}
+    @keyframes pulse{0%{transform:scale(0.7);opacity:0.8}100%{transform:scale(1.4);opacity:0}}
+    .stats{padding:60px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-2)}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+    .stat-num{font-family:var(--font-display);font-size:2.6rem;font-weight:700;color:var(--accent)}
+    .stat-label{font-size:0.9rem;color:var(--text-dim);margin-top:4px}
+    .section-head{text-align:center;margin-bottom:48px}
+    .section-head h2{font-family:var(--font-display);font-size:2.2rem;font-weight:700;margin-bottom:10px}
+    .section-head p{color:var(--text-dim);font-size:1.05rem}
+    .episodes{padding:80px 0}
+    .episode-list{display:grid;gap:20px}
+    .episode-card{display:grid;grid-template-columns:80px 1fr auto;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:all 0.25s;cursor:pointer}
+    .episode-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
+    .episode-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--accent);opacity:0.5}
+    .episode-info h3{font-size:1.15rem;font-weight:600;margin-bottom:6px}
+    .episode-info p{color:var(--text-dim);font-size:0.9rem}
+    .episode-meta{display:flex;gap:16px;margin-top:8px;font-size:0.82rem;color:var(--text-dim)}
+    .episode-meta span{display:flex;align-items:center;gap:5px}
+    .episode-play{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;transition:all 0.2s;flex-shrink:0}
+    .episode-card:hover .episode-play{background:var(--accent-2);transform:scale(1.1)}
+    .about{padding:80px 0;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .about-inner{display:grid;grid-template-columns:1.3fr 0.7fr;gap:50px;align-items:center}
+    .about-text h2{font-family:var(--font-display);font-size:2.2rem;margin-bottom:18px}
+    .about-text p{color:var(--text-dim);margin-bottom:16px;font-size:1.05rem}
+    .host-card{display:flex;align-items:center;gap:16px;margin-top:28px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+    .host-avatar{font-size:2.5rem}
+    .host-name{font-weight:700;font-size:1.05rem}
+    .host-bio{color:var(--text-dim);font-size:0.9rem}
+    .about-visual{display:flex;justify-content:center}
+    .garage-icon{font-size:8rem;filter:drop-shadow(0 0 40px var(--accent-glow))}
+    .subscribe{padding:80px 0}
+    .subscribe-inner{text-align:center;max-width:640px}
+    .subscribe h2{font-family:var(--font-display);font-size:2.2rem;margin-bottom:12px}
+    .subscribe p{color:var(--text-dim);margin-bottom:28px}
+    .subscribe-form{display:flex;gap:12px;margin-bottom:32px}
+    .subscribe-form input{flex:1;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.95rem;font-family:var(--font)}
+    .subscribe-form input:focus{outline:none;border-color:var(--accent)}
+    .subscribe-platforms{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .platform{padding:8px 18px;border-radius:8px;background:var(--surface);border:1px solid var(--border);font-size:0.88rem;font-weight:500;transition:all 0.2s}
+    .platform:hover{border-color:var(--accent);color:var(--accent)}
+    .contact{padding:80px 0;background:var(--bg-2);border-top:1px solid var(--border)}
+    .contact-inner{text-align:center;max-width:580px}
+    .contact h2{font-family:var(--font-display);font-size:2.2rem;margin-bottom:12px}
+    .contact p{color:var(--text-dim);margin-bottom:28px}
+    .contact-form{display:flex;flex-direction:column;gap:14px}
+    .form-row{display:flex;gap:14px}
+    .contact-form input,.contact-form textarea{padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.95rem;font-family:var(--font);resize:vertical}
+    .contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--accent)}
+    .site-footer{background:var(--bg-3);border-top:1px solid var(--border)}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;padding:36px 24px;flex-wrap:wrap;gap:20px}
+    .footer-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700}
+    .footer-links{display:flex;gap:22px}
+    .footer-links a{font-size:0.88rem;color:var(--text-dim);transition:color 0.2s}
+    .footer-links a:hover{color:var(--accent)}
+    .footer-social{display:flex;gap:14px}
+    .footer-social a{width:38px;height:38px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:all 0.2s}
+    .footer-social a:hover{border-color:var(--accent);color:var(--accent)}
+    .footer-bottom{text-align:center;padding:16px;border-top:1px solid var(--border)}
+    .footer-bottom p{font-size:0.82rem;color:var(--text-dim)}
+    @media(max-width:860px){.hero-inner{grid-template-columns:1fr;text-align:center}.hero-art{order:-1}.hero-actions,.hero-platforms{justify-content:center}.about-inner{grid-template-columns:1fr;text-align:center}.about-visual{order:-1}.stats-grid{grid-template-columns:repeat(2,1fr);gap:32px}}
+    @media(max-width:680px){.nav{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--bg-2);padding:20px;gap:16px;border-bottom:1px solid var(--border)}.nav.open{display:flex}.nav-toggle{display:flex}.episode-card{grid-template-columns:60px 1fr}.episode-play{grid-column:1/-1;width:100%;border-radius:10px;height:40px;margin-top:8px}.subscribe-form{flex-direction:column}.form-row{flex-direction:column}.footer-inner{flex-direction:column;text-align:center}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="logo"><span class="logo-icon">🔧</span><span class="logo-text">The Garage Mind</span></a>
+      <nav class="nav" id="nav">
+        <a href="#home">Home</a><a href="#episodes">Episodes</a><a href="#about">About</a><a href="#subscribe">Subscribe</a><a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <span class="hero-badge">New episodes every Tuesday</span>
+        <h1 class="hero-title">The Garage Mind Podcast</h1>
+        <p class="hero-subtitle">Conversations with builders, tinkerers, and thinkers who create in the garage. From weekend projects to world-changing ideas — we explore what drives the maker mindset.</p>
+        <div class="hero-actions"><a href="#episodes" class="btn btn-primary">Listen Now</a><a href="#subscribe" class="btn btn-secondary">Subscribe</a></div>
+        <div class="hero-platforms"><span>Listen on:</span><a href="#">Apple Podcasts</a><a href="#">Spotify</a><a href="#">YouTube</a><a href="#">RSS</a></div>
+      </div>
+      <div class="hero-art"><div class="mic-visual"><div class="mic-ring"></div><div class="mic-ring r2"></div><div class="mic-ring r3"></div><div class="mic-core">🎙️</div></div></div>
+    </div>
+  </section>
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat"><div class="stat-num" data-target="50">0</div><div class="stat-label">Episodes</div></div>
+      <div class="stat"><div class="stat-num" data-target="100">0</div><div class="stat-label">K+ Downloads</div></div>
+      <div class="stat"><div class="stat-num" data-target="30">0</div><div class="stat-label">Guests</div></div>
+      <div class="stat"><div class="stat-num" data-target="4">0</div><div class="stat-label">Years Running</div></div>
+    </div>
+  </section>
+  <section class="episodes" id="episodes">
+    <div class="container">
+      <div class="section-head"><h2>Latest Episodes</h2><p>Deep dives with creators, engineers, and entrepreneurs who never stopped building.</p></div>
+      <div class="episode-list" id="episodeList"></div>
+    </div>
+  </section>
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div class="about-text">
+        <h2>About the Show</h2>
+        <p>The Garage Mind Podcast is about the people who build things — not just products, but ideas, communities, and movements. We believe the garage is a mindset: a place where curiosity meets experimentation, and where the best ideas often start.</p>
+        <p>Each week, we sit down with makers, founders, artists, and engineers to talk about their journey, their failures, and the lessons they've learned along the way. No scripts, no fluff — just real conversations with people who love what they do.</p>
+        <div class="host-card"><div class="host-avatar">👨‍🔧</div><div><div class="host-name">Your Host</div><div class="host-bio">Maker, builder, and lifelong tinkerer. Passionate about the stories behind the things we create.</div></div></div>
+      </div>
+      <div class="about-visual"><div class="garage-icon">🛠️</div></div>
+    </div>
+  </section>
+  <section class="subscribe" id="subscribe">
+    <div class="container subscribe-inner">
+      <h2>Never Miss an Episode</h2>
+      <p>Subscribe on your favorite platform or get new episodes delivered to your inbox.</p>
+      <form class="subscribe-form" id="subscribeForm"><input type="email" placeholder="Enter your email" required /><button type="submit" class="btn btn-primary">Subscribe</button></form>
+      <div class="subscribe-platforms"><a href="#" class="platform">Apple Podcasts</a><a href="#" class="platform">Spotify</a><a href="#" class="platform">Google Podcasts</a><a href="#" class="platform">YouTube</a><a href="#" class="platform">RSS Feed</a></div>
+    </div>
+  </section>
+  <section class="contact" id="contact">
+    <div class="container contact-inner">
+      <h2>Get in Touch</h2>
+      <p>Have a question, a guest suggestion, or want to sponsor the show? We'd love to hear from you.</p>
+      <form class="contact-form" id="contactForm"><div class="form-row"><input type="text" placeholder="Your name" required /><input type="email" placeholder="Your email" required /></div><textarea placeholder="Your message" rows="4" required></textarea><button type="submit" class="btn btn-primary">Send Message</button></form>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><span class="logo-icon">🔧</span><span>The Garage Mind</span></div>
+      <div class="footer-links"><a href="#home">Home</a><a href="#episodes">Episodes</a><a href="#about">About</a><a href="#subscribe">Subscribe</a><a href="#contact">Contact</a></div>
+      <div class="footer-social"><a href="#">𝕏</a><a href="#">📷</a><a href="#">▶️</a><a href="#">in</a></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 The Garage Mind Podcast. All rights reserved.</p></div>
+  </footer>
+  <script>
+    const episodes=[
+      {num:"50",title:"Building in Public: The Open Source Hardware Revolution",desc:"We sit down with a maker who turned a garage hardware project into a global open-source movement.",date:"Sep 2, 2026",duration:"52 min",tag:"Hardware"},
+      {num:"49",title:"From Shed to Startup: Bootstrapping Without VC",desc:"How one founder built a profitable SaaS company from a backyard workshop with zero outside funding.",date:"Aug 26, 2026",duration:"48 min",tag:"Startup"},
+      {num:"48",title:"The Art of the Side Project",desc:"Why your 9-to-5 isn't enough and how side projects unlock creativity and career growth.",date:"Aug 19, 2026",duration:"41 min",tag:"Career"},
+      {num:"47",title:"Electric Dreams: Converting a Classic Car to EV",desc:"A deep dive into the world of DIY electric vehicle conversions with a garage engineer.",date:"Aug 12, 2026",duration:"55 min",tag:"Automotive"},
+      {num:"46",title:"The Maker's Mindset: Failure as a Feature",desc:"Why the best builders embrace failure and how to reframe mistakes as stepping stones.",date:"Aug 5, 2026",duration:"38 min",tag:"Mindset"},
+      {num:"45",title:"Robots in the Garage: Building a Home Automation Empire",desc:"From smart lights to a fully automated workshop — one tinkerer's journey to a connected home.",date:"Jul 29, 2026",duration:"44 min",tag:"IoT"}
+    ];
+    const list=document.getElementById("episodeList");
+    episodes.forEach(ep=>{const card=document.createElement("div");card.className="episode-card";card.innerHTML=`<div class="episode-num">${ep.num}</div><div class="episode-info"><h3>${ep.title}</h3><p>${ep.desc}</p><div class="episode-meta"><span>📅 ${ep.date}</span><span>⏱ ${ep.duration}</span><span>🏷 ${ep.tag}</span></div></div><div class="episode-play">▶</div>`;list.appendChild(card)});
+    const navToggle=document.getElementById("navToggle"),nav=document.getElementById("nav");
+    navToggle.addEventListener("click",()=>nav.classList.toggle("open"));
+    nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
+    const statNums=document.querySelectorAll(".stat-num");
+    const animateCount=(el,target)=>{let current=0;const step=target/40;const timer=setInterval(()=>{current+=step;if(current>=target){el.textContent=target;clearInterval(timer)}else{el.textContent=Math.floor(current)}},30)};
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){statNums.forEach(el=>animateCount(el,parseInt(el.dataset.target)));observer.disconnect()}})},{threshold:0.4});
+    if(statNums.length)observer.observe(statNums[0]);
+    document.getElementById("subscribeForm").addEventListener("submit",(e)=>{e.preventDefault();e.target.querySelector("button").textContent="Subscribed! ✓";e.target.querySelector("button").style.background="#2ecc71";e.target.reset();setTimeout(()=>{e.target.querySelector("button").textContent="Subscribe";e.target.querySelector("button").style.background=""},2500)});
+    document.getElementById("contactForm").addEventListener("submit",(e)=>{e.preventDefault();e.target.querySelector("button").textContent="Sent! ✓";e.target.querySelector("button").style.background="#2ecc71";e.target.reset();setTimeout(()=>{e.target.querySelector("button").textContent="Send Message";e.target.querySelector("button").style.background=""},2500)});
+    const header=document.querySelector(".site-header");
+    window.addEventListener("scroll",()=>{if(window.scrollY>30){header.style.background="rgba(15,17,23,0.96)"}else{header.style.background="rgba(15,17,23,0.85)"}});
+  </script>
+</body>
+</html>
